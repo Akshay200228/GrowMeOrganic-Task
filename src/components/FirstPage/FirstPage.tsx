@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Container, Alert, AlertTitle, Snackbar } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+
 
 interface FirstPageProps {
   onSubmit: (name: string, phoneNumber: string, email: string) => void;
 }
 
 const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -19,7 +22,6 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
     email: false,
   });
 
-  // Load user details from local storage on component mount
   useEffect(() => {
     const savedData = localStorage.getItem('userDetails');
     if (savedData) {
@@ -45,10 +47,9 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
     setInputErrors(newInputErrors);
 
     if (!Object.values(newInputErrors).some((error) => error)) {
-      // Save user details to local storage
       localStorage.setItem('userDetails', JSON.stringify(formData));
       onSubmit(name, phoneNumber, email);
-      navigate('/second?success=true'); // Pass the success parameter
+      navigate('/second?success=true');
     }
   };
 
@@ -78,13 +79,14 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
         marginTop: 4,
         padding: 3,
         border: '1px solid',
-        borderColor: 'divider',
+        borderColor: theme.palette.mode === 'dark' ? 'white' : 'divider',
         borderRadius: 'borderRadius',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: theme.palette.background.default,
         boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.1)',
+        color: theme.palette.text.primary,
       }}
     >
-      <Typography variant="h4" sx={{ marginBottom: 2, color: '#333' }}>
+      <Typography variant="h4" sx={{ marginBottom: 2, color: theme.palette.text.primary }}>
         Fill User Details
       </Typography>
       <form>

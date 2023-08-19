@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Typography, Container, Alert, AlertTitle, Snackbar, useTheme } from '@mui/material';
+import { Button, TextField, Typography, Container, Alert, AlertTitle, Snackbar } from '@mui/material';
 
 interface FirstPageProps {
   onSubmit: (name: string, phoneNumber: string, email: string) => void;
 }
 
 const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -79,18 +78,13 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
         marginTop: 4,
         padding: 3,
         border: '1px solid',
-        borderColor: theme.palette.mode === 'dark' ? 'white' : 'divider',
+        borderColor: 'divider',
         borderRadius: 'borderRadius',
-        backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f5f5f5',
-        // backgroundColor: '#f5f5f5',
+        backgroundColor: '#f5f5f5',
         boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.1)',
-        color: theme.palette.mode === 'dark' ? 'black' : '#333', // Text color
       }}
     >
-      <Typography variant="h4" sx={{
-        marginBottom: 2,
-        color: theme.palette.mode === 'dark' ? 'white' : '#333', // Text color
-      }}>
+      <Typography variant="h4" sx={{ marginBottom: 2, color: '#333' }}>
         Fill User Details
       </Typography>
       <form>
@@ -98,19 +92,9 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
           label="Name"
           variant="outlined"
           fullWidth
-
           value={formData.name}
           onChange={(e) => handleChange('name', e.target.value)}
-          sx={{
-            marginBottom: 2,
-            '& label': {
-              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-            },
-            '& input': {
-              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-              borderColor: theme.palette.mode === 'dark' ? 'white' : 'initial',
-            },
-          }}
+          sx={{ marginBottom: 2 }}
           onKeyPress={handleKeyPress}
           error={inputErrors.name}
         />
@@ -123,16 +107,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
           inputProps={{ pattern: '[0-9]{10}' }}
           value={formData.phoneNumber}
           onChange={(e) => handleChange('phoneNumber', e.target.value)}
-          sx={{
-            marginBottom: 2,
-            '& label': {
-              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-            },
-            '& input': {
-              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-              borderColor: theme.palette.mode === 'dark' ? 'white' : 'initial',
-            },
-          }}
+          sx={{ marginBottom: 2 }}
           onKeyPress={handleKeyPress}
           error={inputErrors.phoneNumber}
         />
@@ -144,16 +119,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
           type="email"
           value={formData.email}
           onChange={(e) => handleChange('email', e.target.value)}
-          sx={{
-            marginBottom: 2,
-            '& label': {
-              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-            },
-            '& input': {
-              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-              borderColor: theme.palette.mode === 'dark' ? 'white' : 'initial',
-            },
-          }}
+          sx={{ marginBottom: 2 }}
           onKeyPress={handleKeyPress}
           error={inputErrors.email}
         />
@@ -162,11 +128,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
           variant="contained"
           color="primary"
           onClick={handleSubmit}
-          sx={{
-            marginTop: 2,
-            backgroundColor: '#007bff',
-            color: theme.palette.mode === 'dark' ? 'white' : 'initial',
-          }}
+          sx={{ marginTop: 2, backgroundColor: '#007bff' }}
         >
           Submit
         </Button>

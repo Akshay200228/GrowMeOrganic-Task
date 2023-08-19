@@ -81,15 +81,15 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
         border: '1px solid',
         borderColor: theme.palette.mode === 'dark' ? 'white' : 'divider',
         borderRadius: 'borderRadius',
-        // backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f5f5f5',
-        backgroundColor: '#333',
+        backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f5f5f5',
+        // backgroundColor: '#f5f5f5',
         boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.1)',
-        color: theme.palette.mode === 'dark' ? '#333' : 'white', // Text color
+        color: theme.palette.mode === 'dark' ? 'black' : '#333', // Text color
       }}
     >
       <Typography variant="h4" sx={{
         marginBottom: 2,
-        color: theme.palette.mode === 'dark' ? '#333' : 'white', // Text color
+        color: theme.palette.mode === 'dark' ? 'white' : '#333', // Text color
       }}>
         Fill User Details
       </Typography>
@@ -104,11 +104,11 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSubmit }) => {
           sx={{
             marginBottom: 2,
             '& label': {
-              color: theme.palette.mode === 'dark' ? 'initial' : 'white',
+              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
             },
             '& input': {
-              color: theme.palette.mode === 'dark' ? 'initial' : 'white',
-              borderColor: theme.palette.mode === 'dark' ? 'initial' : 'white',
+              color: theme.palette.mode === 'dark' ? 'white' : 'initial',
+              borderColor: theme.palette.mode === 'dark' ? 'white' : 'initial',
             },
           }}
           onKeyPress={handleKeyPress}

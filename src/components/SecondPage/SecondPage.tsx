@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Alert, AlertTitle, Box } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { Alert, AlertTitle, Box, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { DataGrid, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from '@mui/x-data-grid';
 
 interface Post {
   userId: number;
@@ -13,9 +14,18 @@ interface Post {
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'title', headerName: 'Title', width: 200 },
-  { field: 'body', headerName: 'Body', width: 400 },
+  {
+    field: 'title',
+    headerName: 'Title',
+    width: 200,
+  },
+  {
+    field: 'body',
+    headerName: 'Body',
+    width: 400,
+  },
 ];
+
 
 const SecondPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +33,7 @@ const SecondPage: React.FC = () => {
   const userDetails = localStorage.getItem('userDetails');
   const [posts, setPosts] = useState<Post[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const successParam = new URLSearchParams(location.search).get('success');
 
   useEffect(() => {
@@ -53,6 +64,16 @@ const SecondPage: React.FC = () => {
     }
   }, [navigate, userDetails, successParam]);
 
+  const handleSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  const filteredPosts = searchText
+    ? posts.filter((post) =>
+      post.title.toLowerCase().includes(searchText.toLowerCase())
+    )
+    : posts;
+
   return (
     <Box>
       {showSuccess && (
@@ -61,12 +82,32 @@ const SecondPage: React.FC = () => {
           Form submitted successfully!
         </Alert>
       )}
-      <h2>Second Page</h2>
-      <p>Welcome to the second page!</p>
+      <h2>Welcome to the Users Page!</h2>
+      <Box mb={2} display="flex" alignItems="center">
+        <TextField
+          label="Search by Title"
+          variant="outlined"
+          value={searchText}
+          onChange={handleSearchTextChange}
+          fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       <Box height={400} width="100%" minHeight="100%">
         <DataGrid
-          rows={posts}
+          rows={filteredPosts}
           columns={columns}
+          components={{
+            Toolbar: CustomToolbar,
+          }}
           initialState={{
             pagination: {
               paginationModel: {
@@ -80,5 +121,15 @@ const SecondPage: React.FC = () => {
     </Box>
   );
 };
+
+const CustomToolbar = () => {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+};
+
 
 export default SecondPage;

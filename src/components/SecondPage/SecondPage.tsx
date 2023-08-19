@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Alert, AlertTitle, Box, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Alert, AlertTitle, Box, TextField, InputAdornment, IconButton, Snackbar } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { DataGrid, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from '@mui/x-data-grid';
 import DepartmentList from '../DepartmentList/DepartmentList';
@@ -89,12 +89,27 @@ const SecondPage: React.FC = () => {
 
   return (
     <Box>
-      {showSuccess && (
+      {/* {showSuccess && (
         <Alert severity="success" onClose={() => navigate('/second')}>
-          <AlertTitle>Success</AlertTitle>
+          <AlertTitle>congratulations</AlertTitle>
           Form submitted successfully!
         </Alert>
-      )}
+      )} */}
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <Alert severity="success">
+          <AlertTitle>Congratulations</AlertTitle>
+          Form submitted successfully!
+        </Alert>
+      </Snackbar>
+
       <h2>Welcome to the Users Page!</h2>
       <Box mb={2} display="flex" alignItems="center">
         <TextField
@@ -114,7 +129,7 @@ const SecondPage: React.FC = () => {
           }}
         />
       </Box>
-      
+
       {/* Render the DepartmentList */}
       <DepartmentList departments={departments} />
 

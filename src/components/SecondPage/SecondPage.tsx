@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Alert, AlertTitle, Box, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { DataGrid, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from '@mui/x-data-grid';
+import DepartmentList from '../DepartmentList/DepartmentList';
 
 interface Post {
   userId: number;
@@ -74,6 +75,18 @@ const SecondPage: React.FC = () => {
     )
     : posts;
 
+  const departments = [
+    {
+      department: 'customer_service',
+      sub_departments: ['support', 'customer_success'],
+    },
+    {
+      department: 'design',
+      sub_departments: ['graphic_design', 'product_design', 'web_design'],
+    },
+  ];
+
+
   return (
     <Box>
       {showSuccess && (
@@ -101,6 +114,10 @@ const SecondPage: React.FC = () => {
           }}
         />
       </Box>
+      
+      {/* Render the DepartmentList */}
+      <DepartmentList departments={departments} />
+
       <Box height={400} width="100%" minHeight="100%">
         <DataGrid
           rows={filteredPosts}

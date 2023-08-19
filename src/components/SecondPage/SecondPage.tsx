@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, Box } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
 interface Post {
   userId: number;
@@ -9,6 +10,12 @@ interface Post {
   title: string;
   body: string;
 }
+
+const columns = [
+  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'title', headerName: 'Title', width: 200 },
+  { field: 'body', headerName: 'Body', width: 400 },
+];
 
 const SecondPage: React.FC = () => {
   const navigate = useNavigate();
@@ -47,7 +54,7 @@ const SecondPage: React.FC = () => {
   }, [navigate, userDetails, successParam]);
 
   return (
-    <div>
+    <Box>
       {showSuccess && (
         <Alert severity="success" onClose={() => navigate('/second')}>
           <AlertTitle>Success</AlertTitle>
@@ -56,15 +63,21 @@ const SecondPage: React.FC = () => {
       )}
       <h2>Second Page</h2>
       <p>Welcome to the second page!</p>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <Box height={400} width="100%" minHeight="100%">
+        <DataGrid
+          rows={posts}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[10]}
+        />
+      </Box>
+    </Box>
   );
 };
 

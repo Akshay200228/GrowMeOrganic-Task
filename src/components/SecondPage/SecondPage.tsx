@@ -6,6 +6,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { DataGrid, GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from '@mui/x-data-grid';
 import DepartmentList from '../DepartmentList/DepartmentList';
 
+// Define the Post interface for API response
 interface Post {
   userId: number;
   id: number;
@@ -13,6 +14,7 @@ interface Post {
   body: string;
 }
 
+// Define columns for the DataGrid
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
@@ -32,11 +34,14 @@ const SecondPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userDetails = localStorage.getItem('userDetails');
+
+  // State for storing posts, success message, search text, and URL param
   const [posts, setPosts] = useState<Post[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [searchText, setSearchText] = useState('');
   const successParam = new URLSearchParams(location.search).get('success');
 
+  // Fetch posts from API and handle success message
   useEffect(() => {
     if (!userDetails) {
       alert('Please provide your details before accessing this page');
@@ -60,21 +65,24 @@ const SecondPage: React.FC = () => {
       const timer = setTimeout(() => {
         setShowSuccess(false);
         navigate('/second');
-      }, 3000); // 3 seconds
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [navigate, userDetails, successParam]);
 
+  // Handle search text change
   const handleSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
   };
 
+  // Filter posts based on search text
   const filteredPosts = searchText
     ? posts.filter((post) =>
       post.title.toLowerCase().includes(searchText.toLowerCase())
     )
     : posts;
 
+  // Define departments and sub-departments
   const departments = [
     {
       department: 'customer_service',
@@ -89,12 +97,7 @@ const SecondPage: React.FC = () => {
 
   return (
     <Box>
-      {/* {showSuccess && (
-        <Alert severity="success" onClose={() => navigate('/second')}>
-          <AlertTitle>congratulations</AlertTitle>
-          Form submitted successfully!
-        </Alert>
-      )} */}
+      {/* Display success message */}
       <Snackbar
         open={showSuccess}
         autoHideDuration={3000}
@@ -110,6 +113,7 @@ const SecondPage: React.FC = () => {
         </Alert>
       </Snackbar>
 
+      {/* Heading and search input */}
       <h2>Welcome to the Users Page!</h2>
       <Box mb={2} display="flex" alignItems="center">
         <TextField
@@ -154,6 +158,7 @@ const SecondPage: React.FC = () => {
   );
 };
 
+// Custom toolbar for the DataGrid
 const CustomToolbar = () => {
   return (
     <GridToolbarContainer>

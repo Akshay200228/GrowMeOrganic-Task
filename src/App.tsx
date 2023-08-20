@@ -4,39 +4,42 @@ import './App.css';
 import FirstPage from './components/FirstPage/FirstPage';
 import SecondPage from './components/SecondPage/SecondPage';
 
+// Define light theme with specific color palette for light mode
 const lightTheme = createTheme({
   palette: {
-    mode: 'light', // Default mode
+    mode: 'light',
     primary: {
-      main: '#007bff', // Primary color
+      main: '#007bff',
     },
     background: {
-      default: '#f5f5f5', // Background color for light mode
+      default: '#f5f5f5',
     },
     text: {
-      primary: '#333', // Text color for light mode
+      primary: '#333',
     },
-    // Add more color overrides as needed
   },
 });
 
+// Define dark theme with specific color palette for dark mode
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#007bff', // Primary color
+      main: '#007bff',
     },
     background: {
-      default: '#333', // Background color for dark mode
+      default: '#333',
     },
     text: {
-      primary: '#fff', // Text color for dark mode
+      primary: '#fff',
     },
-    // Add more color overrides as needed
   },
 });
 
+// Main App component
 function App() {
+
+  // Callback function to handle form submission
   const handleSubmit = (name: string, phoneNumber: string, email: string) => {
     const userDetails = {
       name,
@@ -49,7 +52,11 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        {/* Route for the first page with form */}
         <Route path="/" element={<FirstPage onSubmit={handleSubmit} />} />
+
+        {/* Route for the second page (requires user details) */}
         <Route
           path="/second"
           element={
@@ -61,10 +68,14 @@ function App() {
   );
 }
 
+// ThemedApp component to apply theme based on user's color scheme preference
 export default function ThemedApp() {
+
+  // Determine user's color scheme preference (light or dark)
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   return (
+    // Apply the selected theme (light or dark) using ThemeProvider
     <ThemeProvider theme={prefersDarkMode ? darkTheme : lightTheme}>
       <App />
     </ThemeProvider>
